@@ -10,6 +10,7 @@ from membership import mfDerivs
 import copy
 
 class ANFIS:
+    
     """Class to implement an Adaptive Network Fuzzy Inference System: ANFIS"
 
     Attributes:
@@ -34,6 +35,7 @@ class ANFIS:
         self.XLen = len(self.X)
         self.memClass = copy.deepcopy(memFunction)
         self.memFuncs = self.memClass.MFList
+        
         self.memFuncsByVariable = [[x for x in range(len(self.memFuncs[z]))] for z in range(len(self.memFuncs))]
         self.rules = np.array(list(itertools.product(*self.memFuncsByVariable)))
         self.consequents = np.empty(self.Y.ndim * len(self.rules) * (self.X.shape[1] + 1))
@@ -55,7 +57,7 @@ class ANFIS:
         return x
 
     def trainHybridJangOffLine(self, epochs=5, tolerance=1e-5, initialGamma=1000, k=0.01):
-
+       
         self.trainingType = 'trainHybridJangOffLine'
         convergence = False
         epoch = 1
@@ -69,7 +71,7 @@ class ANFIS:
             layerFive = np.array(self.LSE(layerFour,self.Y,initialGamma))
             self.consequents = layerFive
             layerFive = np.dot(layerFour,layerFive)
-
+           
             #error
             error = np.sum((self.Y-layerFive.T)**2)
             print('current error: '+ str(error))
